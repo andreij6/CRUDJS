@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Style.css" rel="stylesheet" />
+</head>
+<body>
+
+    <section class="container">
+        
+        <div class="row">
+
+            <div class="col-md-6 col-md-push-3">
+                <form role="form">
+
+                    <div class="form-group">
+                        <label for="Color">Car Model</label>
+                        <input type="text" class="form-control" id="Model" placeholder="Enter A Car Model">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Make">Car Make</label>
+                        <input type="text" class="form-control" id="Make" placeholder="Enter A Car Make">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Color">Car Color</label>
+                        <input type="text" class="form-control" id="Color" placeholder="Enter A Car Color">
+                    </div>
+                    <button type="button" class="btn btn-default" id="add">Add</button>
+                    
+                </form>
+
+
+                <table class="table table-striped" id="table" data-sortedBy="none">
+                    <thead>
+                        <tr>
+                            <th>Car Model <span class="glyphicon glyphicon-chevron-down" id="makeSort" onclick="myApp.Sort(1)"></span></th>
+                            <th>Car Make  <span class="glyphicon glyphicon-chevron-down" id="modelSort" onclick="myApp.Sort(2)"></span></th>
+                            <th>Car Color <span class="glyphicon glyphicon-chevron-down" id="colorSort" onclick="myApp.Sort(3)"></span></th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <script src="Scripts/jquery-1.9.0.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/_CrudJS.js"></script>
+</body>
+</html>

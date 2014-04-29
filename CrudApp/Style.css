@@ -1,0 +1,17 @@
+﻿.container {
+    padding-top: 80px;
+}
+
+table {
+    margin-top: 50px;
+}
+
+form {
+    margin-bottom: 50px;
+}
+
+/*input[type="text"] {
+    border: 1px solid white;
+    background-color: #000;
+    color: #FFF;
+}*/
