@@ -4,32 +4,67 @@ var myApp = {};
 
 myApp.cars = [];
 
-myApp.Car = function (color0, make0, model0, id) {
+myApp.Car = function (color0, make0, model0) {
     this.color = color0;
     this.make = make0;
     this.model = model0;
-    this.id = id;
 };
 
 myApp.Add = function () {
-    var model   = document.getElementById("Model");
-    var make    = document.getElementById("Make");
-    var color   = document.getElementById("Color");
+    var model   = document.getElementById("Model").value;
+    var make    = document.getElementById("Make").value;
+    var color   = document.getElementById("Color").value;
 
-    var _model = model.value;
-    var _make = make.value;
-    var _color = color.value;
-    var id = myApp.cars.length + 1;
-
-
-    myApp.cars.push(new myApp.Car(_color, _make, _model, id));
-
-    model.value     = "";
-    make.value      = "";
-    color.value     = "";
+    //Make call Post
+    myApp.Post(color, make, model);
 
     myApp.Redraw();
 
+};
+
+myApp.Post = function (color, make, model) {
+    var car = { make: make, model: model, color: color };
+    var request = new XMLHttpRequest();
+    var baseUrl = "https://carcrud.firebaseio.com/.json";
+    request.open("POST", baseUrl, true);
+    
+    request.onload = function () {
+        if (this.status >= 200 && this.status < 400) {
+            
+            myApp.Get();
+        } else {
+            console.log("Server Error");
+        }
+    };
+    request.onerror = function () {
+        console.log("Connection error");
+    }
+    
+    request.send(JSON.stringify(car));
+
+};
+
+myApp.Get = function () {
+    var request = new XMLHttpRequest();
+    var baseUrl = "https://carcrud.firebaseio.com/.json";
+    request.open("GET", baseUrl, true);
+
+    request.onload = function () {
+        if (this.status >= 200 && this.status < 400) {
+            var data = JSON.parse(this.response);
+            //it worked
+        } else {
+            alert(this.response);
+            //it failed
+        }
+        myApp.Redraw(data);
+    }
+    request.onerror = function () {
+        console.log("Connection error");
+    }
+    request.send();
+    console.log(myApp.cars)
+    
 };
 
 myApp.EditUI = function (id) {
@@ -90,17 +125,17 @@ myApp.Delete = function (id) {
     myApp.Redraw();
 };
 
-myApp.Redraw = function () {
+myApp.Redraw = function (data) {
 
     var tableBody = $("#tbody");
     var table = document.getElementById("table").getAttribute("data-sortedBy");
-    tableBody.html("");
+    tableBody.html(" ");
+
 
     if (table === "none") {
 
-        
-        for (var i = 0; i < myApp.cars.length; i++) {
-            tableBody.append('<tr><td>' + myApp.cars[i].model + '</td><td>' + myApp.cars[i].make + '</td><td>' + myApp.cars[i].color + '<td> <td><button class="btn btn-default" onclick="myApp.EditUI(' + myApp.cars[i].id + ')">Edit</button></td><td><button class="btn btn-danger" onclick= "myApp.Delete(' + myApp.cars[i].id + ')">Delete</button></td></tr>');
+        for (var x in data) {
+            tableBody.append('<tr><td>' + data[x].model + '</td><td>' + data[x].make + '</td><td>' + data[x].color + '<td> <td><button class="btn btn-default">Edit</button></td><td><button class="btn btn-danger">Delete<button><td></tr>');
         }
         
 
@@ -182,7 +217,7 @@ myApp.Sort = function (sortParam) {
 };
 //DOM 
 
-$("#add").on("click", myApp.Add);
+document.getElementById("add").onclick = myApp.Add;
 
 
 
